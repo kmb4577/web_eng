@@ -72,22 +72,22 @@
   </script>
 
   <section id="myfeedapp"><!-- **********CONTROLLS THE USERS VIEW******* -->
-    <div id="myfeed"><!-- ********** HIDES/SHOWS ********* -->
-      <header id="myfeed-header">
+    <div id="myfeedcontainer"><!-- ********** HIDES/SHOWS ********* -->
+      <!--<header>
         <h1> My News Feed </h1>
-        <!--<input id="new-todo" placeholder="What needs to be done?">-->
-      </header>
+      </header>-->
       <section id="main">
-        <div id="feed-list">
-          <!-- Where each feed-template is inserted into when a user clicks on add for any one of the rss feed options. -->
-        </div>
 
-      <!--<h1> RSS Reader Example </h1>-->
+
 
 
         <div class="panel panel-default" id="add-feed-panel">
-          <div class="panel-heading">My Sports Feed</div>
+          <div class="panel-heading">My Feed</div>
             <div class="panel-body">
+        <div id="feed-list">
+          <!-- TODO:  Move this into the panel body??????????? -->
+          <!-- Where each feed-template is inserted into when a user clicks on add for any one of the rss feed options. -->
+        </div>
               <!--<label> Select option to add  </label>-->
             </div>
             <div class="panel-footer">
@@ -343,11 +343,11 @@
               $("#signup-section").hide();
             } else {
               $("#signup-section").hide();
-              $("#myfeed").hide();
+              $("#myfeedcontainer").hide();
             }
       } else {
               $("#signup-section").hide();
-              $("#myfeed").hide();
+              $("#myfeedcontainer").hide();
       }
       //store the current username and password when a user logs in.
       $("#login-button").click(function(){
@@ -360,7 +360,7 @@
           localStorage.setItem("my_password", password);
           console.log("Current logged in user: Username and password saved to localStorage");
           $("#login-section").hide();
-          $("#myfeed").show();
+          $("#myfeedcontainer").show();
           $("#feed-content").show();
         } else {
           alert("Invalid username and/or password.");
@@ -371,7 +371,7 @@
       //logout user
       $("#logout-button").click(function(){
         $("#login-section").show();
-        $("#myfeed").hide();
+        $("#myfeedcontainer").hide();
         $("#feed-content").hide();
         localStorage.removeItem("my_username");
         localStorage.removeItem("my_password");
