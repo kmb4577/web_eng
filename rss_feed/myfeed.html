@@ -128,7 +128,7 @@ function stopWorker() {
     <div id="myfeedcontainer"><!--  HIDES/SHOWS -->
       <div id="current-time"></div> <br />
       <div id="last-login"></div>
-      
+
       <div class="panel panel-default" id="add-feed-panel">
         <div class="panel-heading">My Feed</div>
         <div class="panel-body">
@@ -281,7 +281,7 @@ function stopWorker() {
           const sport_options = Array.from(document.querySelectorAll('option'));
           const url = this.newFeedAttributes().url;
           const title = this.newFeedAttributes().title;
-          console.log(app.feedList.where({ title: title }));
+          // console.log(app.feedList.where({ title: title }));
           const xhr = new XMLHttpRequest();
           
           xhr.open('GET', url);
@@ -298,14 +298,14 @@ function stopWorker() {
               container.textValue = 'An error occured reading the stream';
             }
           };
-          console.log("ABOUT TO SEND");
+          // console.log("ABOUT TO SEND");
           xhr.send();
         },
         removeFeed: function(e){
           //TODO:
           //ADD OTHER OPTIONS OTHER THAN SPORTS******************************
           //Add the option to favorite feeds
-          console.log("ATTEMPTING TO REMOVE FROM FEED");
+          // console.log("ATTEMPTING TO REMOVE FROM FEED");
           const sport_options = Array.from(document.querySelectorAll('option'));
           const remove_title = this.remove_feed_selectbox.val().trim();
           var feedToDelete = app.feedList.where({ title: remove_title })[0];
@@ -381,13 +381,13 @@ function stopWorker() {
 
       if(localStorage.getItem("my_username") !== null){
             if(localStorage.getItem("my_username").length){
-              console.log("RELOAD");
+              // console.log("RELOAD");
               $("#login-section").hide();
               $("#signup-section").hide();
               var current_user = app.userList.where({ username: localStorage.getItem("my_username") });
               var lastLogin = current_user[0].get('last_login');
-              console.log(current_user);
-              console.log(lastLogin);
+              // console.log(current_user);
+              // console.log(lastLogin);
               document.getElementById('last-login').innerHTML = "Your last visit was on: " + lastLogin;
             } else {
               $("#signup-section").hide();
