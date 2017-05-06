@@ -16,9 +16,62 @@
   <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.0/backbone.localStorage-min.js" type="text/javascript"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+  function startTime() {
+      var today = new Date();
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      var month = today.getMonth();
+      var day = today.getDay();
+      var year = today.getFullYear();
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('current-time').innerHTML = 
+      month + "-" + day + "-" + year + "   " + h + ":" + m + ":" + s;
+      var t = setTimeout(startTime, 500);
+      //mm-dd-yyyy HH:mm:ss
+  }
+  function checkTime(i) {
+      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+      return i;
+  }
+  </script>
 </head>
 
 <body>
+
+<body onload="startTime()">
+
+<div id="current-time"></div> <br />
+<div id="last-login"></div>
+<!--<p>Count numbers: <output id="result"></output></p>
+<button onclick="startWorker()">Start Worker</button> 
+<button onclick="stopWorker()">Stop Worker</button>
+
+<p><strong>Note:</strong> Internet Explorer 9 and earlier versions do not support Web Workers.</p>
+
+<script>
+var w;
+
+function startWorker() {
+    if(typeof(Worker) !== "undefined") {
+        if(typeof(w) == "undefined") {
+            w = new Worker("demo_workers.js");
+        }
+        w.onmessage = function(event) {
+            document.getElementById("result").innerHTML = event.data;
+        };
+    } else {
+        document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Workers...";
+    }
+}
+
+function stopWorker() { 
+    w.terminate();
+    w = undefined;
+}
+</script>-->
 
 
   <script id="feed-template" type="text/template" >
@@ -71,68 +124,57 @@
 
   </script>
 
-  <section id="myfeedapp"><!-- **********CONTROLLS THE USERS VIEW******* -->
-    <div id="myfeedcontainer"><!-- ********** HIDES/SHOWS ********* -->
-      <!--<header>
-        <h1> My News Feed </h1>
-      </header>-->
-      <section id="main">
+<!-- *************************CONTROLLS** USERS VIEW******************************** -->
+  <section id="myfeedapp">
 
-
-
-
-        <div class="panel panel-default" id="add-feed-panel">
-          <div class="panel-heading">My Feed</div>
-            <div class="panel-body">
-        <div id="feed-list">
-          <!-- TODO:  Move this into the panel body??????????? -->
-          <!-- Where each feed-template is inserted into when a user clicks on add for any one of the rss feed options. -->
-        </div>
-              <!--<label> Select option to add  </label>-->
-            </div>
-            <div class="panel-footer">
-              <select class="list-group" id="rss-add-sports-select" >
-                <option name='sport' value='MLB' id='MLB' > MLB </option>
-                <option name='sport' value='NBA' id='NBA' > NBA </option>
-                <option name='sport' value='NFL' id='NFL' > NFL </option>
-                <option name='sport' value='NHL' id='NHL' > NHL </option>
-              </select>
-              <button type="button" id="add-feed" >Add to My Feed</button>
-
-              <!-- onchange="handleSelectionChange()" -->
-              <select class="list-group" id="rss-remove-sports-select" >
-                <!--<option name='sport' value='MLB' > MLB </option>
-                <option name='sport' value='NBA' > NBA </option>
-                <option name='sport' value='NFL' > NFL </option>
-                <option name='sport' value='NHL' > NHL </option>-->
-              </select>
-              <button type="button" id="remove-feed" >Remove from My Feed</button>
-            </div>
+    <div id="myfeedcontainer"><!--  HIDES/SHOWS -->
+      <div class="panel panel-default" id="add-feed-panel">
+        <div class="panel-heading">My Feed</div>
+        <div class="panel-body">
+          <div id="feed-list">
+            <!-- EACH feed-template is inserted into when a user 
+            clicks on "Add To My Feed" button. -->
           </div>
-          <button type="button" id="logout-button" >Log out</button>
         </div>
+        <div class="panel-footer">
+          <select class="list-group" id="add-feed-select" >
+            <option name='sport' value='MLB' id='MLB' > MLB </option>
+            <option name='sport' value='NBA' id='NBA' > NBA </option>
+            <option name='sport' value='NFL' id='NFL' > NFL </option>
+            <option name='sport' value='NHL' id='NHL' > NHL </option>
+            
+          </select>
+          <button type="button" id="add-feed" >Add to My Feed</button>
+
+          <select class="list-group" id="remove-feed-select" >
+            <!-- option tags INSERTED here when they are added to the 'appView' -->
+          </select>
+          <button type="button" id="remove-feed" >Remove from My Feed</button>
+        </div>
+      </div><!-- END 'panel panel-default'    -->
+      <button type="button" id="logout-button" >Log out</button>
+    </div> <!-- END 'main-homepage'        -->
+        
 
 
+    <div id="login-section"><!--  HIDES/SHOWS -->
+      <header id="login-header">
+        <h1> Login </h1>
+      </header>
+      <label>
+        Username: <input name="myusername" required>
+      </label>
+      <label>
+        Password: <input  name="mypassword" required>
+      </label>
+      <button type="button" id="login-button" >Log In</button>
+      <button type="button" id="signup-button" >Sign Up</button>
+    </div>
 
 
-
-      <div id="login-section">
-        <header id="login-header">
-          <h1> Login </h1>
-        </header>
-        <label>
-          Username: <input name="myusername" required>
-        </label>
-        <label>
-          Password: <input  name="mypassword" required>
-        </label>
-        <button type="button" id="login-button" >Log In</button>
-        <button type="button" id="signup-button" >Sign Up</button>
-      </div>
-
-      <div id="signup-section"><!-- ****-->
-        <header id="signup-header"><!-- ****-->
-          <h1> New User Account </h1><!-- ****-->
+      <div id="signup-section"><!--  HIDES/SHOWS -->
+        <header id="signup-header">
+          <h1> New User Account </h1>
         </header>
         <label>
           Username: <input name="myusername-new" id="new-username-input" required>
@@ -143,19 +185,14 @@
         <label>
           Password Confirmation: <input  name="mypassword-confirmation" required><!-- ****-->
         </label>
-        <!-- ****-->
         <button type="button" id="login-page" >Back to Log In</button>
         <button type="button" id="create-account-button" >Create Account</button><!-- ****-->
       </div>
-
-
-
-
-      <ul id="user-list"></ul>
-
-
-    </section>
   </section>
+  <!-- ***************************END USERS VIEW********************************* -->
+
+
+
 
   <script type="text/javascript">
     if(localStorage){
@@ -163,7 +200,8 @@
       app.User = Backbone.Model.extend({
         defaults: {
           username: '',
-          password: ''
+          password: '',
+          last_login: ''
         }
       });
 
@@ -204,27 +242,26 @@
       app.AppView = Backbone.View.extend({
         el: '#myfeedapp',
         initialize: function () {
-          this.new_feed_input = this.$('#rss-add-sports-select');
-          this.remove_feed_input = this.$('#rss-remove-sports-select');
+          this.add_feed_selectbox = this.$('#add-feed-select');
+          this.remove_feed_selectbox = this.$('#remove-feed-select');
           // when new elements are added to the collection render then with addOne
           app.feedList.on('add', this.addOneFeed, this);
           app.feedList.on('reset', this.addAllFeeds, this);
           app.userList.fetch(); // Loads list from local storage
-          // // when new elements are added to the collection render then with addOne
-          // app.todoList.on('add', this.addOne, this);
-          // app.todoList.on('reset', this.addAll, this);
-          // app.todoList.fetch(); // Loads list from local storage
+          // app.feedList.fetch();
 
 
           this.create_account_button = this.$('#create-account-button');
           this.username_input = this.$('#new-username-input');
           this.password_input = this.$('#new-password-input');
+          this.last_login_timebox = this.$('#current-time');
         },
         events: {
           // 'keypress #new-todo': 'createTodoOnEnter',
           'click #create-account-button': 'createUser',
           'click #add-feed': 'createFeed',
-          'click #remove-feed': 'removeFeed'
+          'click #remove-feed': 'removeFeed',
+          'click #logout-button': 'updateLastLogin'
         },
         addOneFeed: function(feed){
           console.log("addOneFeed CALLED=============");
@@ -253,7 +290,7 @@
               //set the id of the content to the url for this rss feed
               $(document.getElementById('sports-content')).attr("id", url );
               $('#' + title).remove();
-              $('#rss-remove-sports-select').append($("<option></option>").attr("value", title).attr("id", title).attr("name", "sports").text(title));
+              $('#remove-feed-select').append($("<option></option>").attr("value", title).attr("id", title).attr("name", "sports").text(title));
             } else {
               const container = document.getElementById('sports-content');
               container.innerHTML = '';
@@ -269,20 +306,20 @@
           //Add the option to favorite feeds
           console.log("ATTEMPTING TO REMOVE FROM FEED");
           const sport_options = Array.from(document.querySelectorAll('option'));
-          const remove_title = this.remove_feed_input.val().trim();
+          const remove_title = this.remove_feed_selectbox.val().trim();
           var feedToDelete = app.feedList.where({ title: remove_title })[0];
           const url = feedToDelete.get('url');
           const title = feedToDelete.get('title');
           //remove list item from users feed view
           $(document.getElementById(url)).closest('li').remove();
           //remove from the remove options
-          $('#rss-remove-sports-select option#' + title).remove();
+          $('#remove-feed-select option#' + title).remove();
           //add the option back to options that can be added to the feed list
-          $('#rss-add-sports-select').append($("<option></option>").attr("value", title).attr("id", title).attr("name", "sports").text(title));
+          $('#add-feed-select').append($("<option></option>").attr("value", title).attr("id", title).attr("name", "sports").text(title));
           //delete the feedToDelete
           feedToDelete.destroy();
         },
-        createUser: function(e){
+        createUser: function(e) {
           var password_input = $('input[name=mypassword-new]') .val();
           var password_confirmation_input = $('input[name=mypassword-confirmation]') .val();
           var username_input = $('input[name=myusername-new]') .val();
@@ -292,28 +329,32 @@
               alert("Username has already been taken. Please enter a different username.");
             } else {
               app.userList.create(this.newUserAttributes());
-              $("#login-section").show();
-              $("#signup-section").hide();
+              $('#login-section').show();
+              $('#signup-section').hide();
               //TODO: show success message here
-              //telling user their account has been created and they must now log in
             }
           } else {
             alert("Password and Password Confirmation fields do not match. Please make sure these inputs are the same before attempting to create a new account.");
-            // console.log("PASSWORDS DONT MATCH");
-            // console.log(password_input);
-            // console.log(password_confirmation_input);
           }
         },
         newUserAttributes: function() {
           return {
             username: this.username_input.val().trim(),
-            password: this.password_input.val().trim()
+            password: this.password_input.val().trim(),
+            last_login: this.last_login_timebox.html
+          }
+        },
+        updateLastLogin: function(){
+          return {
+            last_login: this.last_login_timebox.html
           }
         },
         newFeedAttributes: function(){
           return {
-            title: this.new_feed_input.val().trim(),
-            url: `http://espn.go.com/espn/rss/${this.new_feed_input.val().trim()}/news`
+            title: this.add_feed_selectbox.val().trim(),
+            url: `http://espn.go.com/espn/rss/${this.add_feed_selectbox.val().trim()}/news`
+            //url: `http://www.autocar.co.uk/rss`
+            //url: `http://webdesign.about.com/library/z_whats_new.rss`
           }
         }
       });
@@ -353,11 +394,18 @@
       $("#login-button").click(function(){
         var userName = $('input[name=myusername]').val();
         var password = $('input[name=mypassword]').val();
-        console.log(userName);
         var current_user = app.userList.where({ username: userName });
+        var lastLogin = current_user[0].get('last_login');
+        document.getElementById('last-login').innerHTML = "Your last visit was on: " + lastLogin;
         if(current_user.length){
           localStorage.setItem("my_username", userName);
           localStorage.setItem("my_password", password);
+          // current_user[0].get('last_login');
+          //  todo set this
+          // localStorage.getItem("last_login")
+          // console.log(current_user.get('last_login'));
+          // console.log(current_user.get('last_login'));
+          // console.log(current_user.get("last_login").length);
           console.log("Current logged in user: Username and password saved to localStorage");
           $("#login-section").hide();
           $("#myfeedcontainer").show();
@@ -373,8 +421,13 @@
         $("#login-section").show();
         $("#myfeedcontainer").hide();
         $("#feed-content").hide();
+        // var feedToDelete = app.feedList.where({ title: remove_title })[0];
+        // var current_user = app.userList.where({ username: userName });
+        var current_user = app.userList.where({ username: localStorage.getItem("my_username") })[0];
         localStorage.removeItem("my_username");
         localStorage.removeItem("my_password");
+        //save user last logged in time
+        current_user.set({last_login: document.getElementById('current-time').innerHTML});
       });
 
       //'navigate' to the SIGN UP page
