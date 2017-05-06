@@ -43,8 +43,6 @@
 
 <body onload="startTime()">
 
-<div id="current-time"></div> <br />
-<div id="last-login"></div>
 <!--<p>Count numbers: <output id="result"></output></p>
 <button onclick="startWorker()">Start Worker</button> 
 <button onclick="stopWorker()">Stop Worker</button>
@@ -91,7 +89,7 @@ function stopWorker() {
     var handleData = function(data) {
       // data is a DOM-like object, so `querySelectorAll` works
       const items = Array.from(data.querySelectorAll('item'));
-      console.log(items);
+      // console.log(items);
       // // map the list of items into nodes for html
       const nodes = items.map(function(item) {
         // make a node for the title
@@ -128,6 +126,9 @@ function stopWorker() {
   <section id="myfeedapp">
 
     <div id="myfeedcontainer"><!--  HIDES/SHOWS -->
+      <div id="current-time"></div> <br />
+      <div id="last-login"></div>
+      
       <div class="panel panel-default" id="add-feed-panel">
         <div class="panel-heading">My Feed</div>
         <div class="panel-body">
@@ -264,17 +265,17 @@ function stopWorker() {
           'click #logout-button': 'updateLastLogin'
         },
         addOneFeed: function(feed){
-          console.log("addOneFeed CALLED=============");
+          // console.log("addOneFeed CALLED=============");
           var view = new app.FeedView({model: feed});
           $('#feed-list').append(view.render().el);
         },
         addAllFeeds: function(e){
-          console.log("addAllFeeds CALLED=============");
+          // console.log("addAllFeeds CALLED=============");
           this.$('#feed-list').html(''); // clean the todo list
           app.feedList.each(this.addOne, this);
         },
         createFeed: function(e){
-          console.log("ATTEMPTING TO CREATE FEED");
+          // console.log("ATTEMPTING TO CREATE FEED");
           app.feedList.create(this.newFeedAttributes());
           // store the select options as an array
           const sport_options = Array.from(document.querySelectorAll('option'));
@@ -380,8 +381,14 @@ function stopWorker() {
 
       if(localStorage.getItem("my_username") !== null){
             if(localStorage.getItem("my_username").length){
+              console.log("RELOAD");
               $("#login-section").hide();
               $("#signup-section").hide();
+              var current_user = app.userList.where({ username: localStorage.getItem("my_username") });
+              var lastLogin = current_user[0].get('last_login');
+              console.log(current_user);
+              console.log(lastLogin);
+              document.getElementById('last-login').innerHTML = "Your last visit was on: " + lastLogin;
             } else {
               $("#signup-section").hide();
               $("#myfeedcontainer").hide();
@@ -400,13 +407,15 @@ function stopWorker() {
         if(current_user.length){
           localStorage.setItem("my_username", userName);
           localStorage.setItem("my_password", password);
+          localStorage.setItem("my_last_login", lastLogin);
+          // $('#last-login').html = lastLogin;
           // current_user[0].get('last_login');
           //  todo set this
           // localStorage.getItem("last_login")
           // console.log(current_user.get('last_login'));
           // console.log(current_user.get('last_login'));
           // console.log(current_user.get("last_login").length);
-          console.log("Current logged in user: Username and password saved to localStorage");
+          // console.log("Current logged in user: Username and password saved to localStorage");
           $("#login-section").hide();
           $("#myfeedcontainer").show();
           $("#feed-content").show();
@@ -426,8 +435,10 @@ function stopWorker() {
         var current_user = app.userList.where({ username: localStorage.getItem("my_username") })[0];
         localStorage.removeItem("my_username");
         localStorage.removeItem("my_password");
+        localStorage.removeItem("my_last_login");
         //save user last logged in time
         current_user.set({last_login: document.getElementById('current-time').innerHTML});
+        current_user.save();
       });
 
       //'navigate' to the SIGN UP page
